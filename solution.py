@@ -1,20 +1,28 @@
 
 from utils import *
 
+""" 
+To enable console in PyCharm
+Run|Edit Configurations|Run with Python Console 
+"""
+def diagonals(r):
+    d = []
+    d2=[]
+    dunit = []
+    col =1
+    for row in r:
+        d.append(row+str(col))
+        col = col+1
 
-row_units = [cross(r, cols) for r in rows]
-column_units = [cross(rows, c) for c in cols]
-square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-unitlist = row_units + column_units + square_units
+    col = 9
+    # for row in reversed(r):
+    for row in r:
+        d2.append(row+str(col))
+        col = col -1
+    dunit.append(d)
+    dunit.append(d2)
 
-# TODO: Update the unit list to add the new diagonal units
-unitlist = unitlist
-
-
-# Must be called after all units (including diagonals) are added to the unitlist
-units = extract_units(unitlist, boxes)
-peers = extract_peers(units, boxes)
-
+    return dunit
 
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
@@ -261,6 +269,21 @@ def solve(grid):
     values = search(values)
     return values
 
+
+#START HERE
+
+row_units = [cross(r, cols) for r in rows]
+column_units = [cross(rows, c) for c in cols]
+square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+unitlist = row_units + column_units + square_units
+diag_units = diagonals(rows)
+
+# TODO: Update the unit list to add the new diagonal units
+unitlist = unitlist + diag_units
+
+# Must be called after all units (including diagonals) are added to the unitlist
+units = extract_units(unitlist, boxes)
+peers = extract_peers(units, boxes)
 
 if __name__ == "__main__":
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
